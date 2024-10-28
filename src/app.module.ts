@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 // import { UsersService } from './users/users.service';
 import CONNECTION from './db.connection';
 // import { UsersController } from './users/users.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import CONNECTION from './db.connection';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -21,8 +21,6 @@ export class UsersService {
    */
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const hash = await bcrypt.hash(createUserDto.password, 10);
-    console.log(`createUserDto.email: ${createUserDto.email}`)
-    console.log(`hash: ${hash}`)
     const user = this.usersRepository.create({
       username: createUserDto.username,
       password: hash,
@@ -50,6 +48,15 @@ export class UsersService {
       throw new Error('User not found');
     }
     return user
+  }
+
+  /**
+   * this function used to get data of use whose username is passed in parameter
+   * @param username is type of string, which represent the username of user.
+   * @returns promise of user
+   */
+  async findUserByUsername(username: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { username } });
   }
 
   /**
