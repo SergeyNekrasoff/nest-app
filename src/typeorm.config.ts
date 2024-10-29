@@ -1,6 +1,5 @@
 import { DataSource } from "typeorm"
 import CONNECTION from "./db.connection"
-import { User } from "./users/entities/user.entity"
 
 // @ts-ignore
 const AppDataSource = new DataSource({
