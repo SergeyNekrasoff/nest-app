@@ -1,37 +1,9 @@
-import { ChatCompletion } from './../../node_modules/openai/resources/chat/completions.d';
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
 import OpenAI from 'openai';
+import { GenerateChatDto } from './dto/generate-chat.dto';
 
 @Injectable()
 export class ChatService {
-  // private readonly apiKey: string;
-  // private readonly apiUrl: string;
-
-  // constructor(private readonly httpService: HttpService) {
-  //   this.apiKey = process.env.OPENAI_API_KEY;
-  //   this.apiUrl = process.env.OPENAI_API_URL;
-  // }
-
-  // generateResponse(prompt: string): Observable<AxiosResponse> {
-  //   const data = {
-  //     prompt: prompt,
-  //     max_tokens: 150,
-  //     n: 1,
-  //     stop: null,
-  //     temperature: 1,
-  //   };
-
-  //   const headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': `Bearer ${this.apiKey}`,
-  //   }
-
-  //   return this.httpService.post(this.apiUrl, data, { headers: headers });
-  // }
-
   private client: OpenAI;
 
   constructor() {
@@ -41,22 +13,22 @@ export class ChatService {
     })
   }
 
-  async generateResponse(prompt: string): Promise<string> {
+  async generateResponse(generatedChatDto: GenerateChatDto): Promise<string> {
     try {
+      console.log(`generatedChatDto.model: ${generatedChatDto.model}`)
       const chatCompletion = await this.client.chat.completions.create({
-        model: 'gpt-4o',
+        model: generatedChatDto.model || 'gpt-3.5-turbo',
         messages: [
           {
             role: 'user',
-            content: prompt,
+            content: generatedChatDto.prompt,
           },
         ],
-        temperature: 0.5,
-        max_tokens: 150,
+        max_tokens: generatedChatDto.maxTokens || 150,
+        temperature: generatedChatDto.temperature || 1,
       })
-
-      const [content] = chatCompletion.choices.map((choice) => choice.message.content);
-      return content;
+      
+      return chatCompletion.choices[0]?.message.content;
     } catch (error) {
       console.error(error);
       throw new Error('Failed to generate response from AI-Platform');
