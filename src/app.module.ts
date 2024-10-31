@@ -16,7 +16,7 @@ import { ImageModule } from './image/image.module';
     TypeOrmModule.forRoot({
       ...CONNECTION,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
     }),
     ConfigModule.forRoot({
       isGlobal: true,
