@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
 import { DocumentsModule } from './documents/documents.module';
 import { ConfigModule } from '@nestjs/config';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     ChatModule,
     DocumentsModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
