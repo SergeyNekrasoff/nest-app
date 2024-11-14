@@ -27,7 +27,7 @@ exports.AppModule = AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRoot({
                 ...db_connection_1.default,
                 autoLoadEntities: true,
-                synchronize: false,
+                synchronize: true,
             }),
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
@@ -40,7 +40,9 @@ exports.AppModule = AppModule = __decorate([
             image_module_1.ImageModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            app_service_1.AppService,
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

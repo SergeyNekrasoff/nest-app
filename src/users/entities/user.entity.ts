@@ -12,5 +12,14 @@ export class User {
   password: string
 
   @Column()
-  email?: string
+  confirmPassword: string
+
+  @Column()
+  email: string
+
+  // @Column()
+  // createdAt: Date
+
+  // @Column()
+  // updatedAt: Date
 }

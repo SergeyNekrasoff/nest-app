@@ -17,7 +17,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         global: true,
         secret: jwtConstants.secret,
         signOptions: {
-          expiresIn: '60s'
+          expiresIn: '2h'
         },
       })
     }),

@@ -18,15 +18,18 @@ let AuthService = class AuthService {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
-    async login(username, password) {
-        const user = await this.usersService.findUserByUsername(username);
+    async login(email, password) {
+        const user = await this.usersService.findOne(email);
         if (user?.password !== password) {
             throw new common_1.UnauthorizedException();
         }
-        const payload = { sub: user.id, username: user.username };
+        const payload = { sub: user.id, email: user.email };
         return {
             access_token: await this.jwtService.signAsync(payload),
         };
+    }
+    async signUp(payload) {
+        return this.usersService.create(payload);
     }
 };
 exports.AuthService = AuthService;

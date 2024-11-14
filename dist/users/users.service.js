@@ -22,40 +22,41 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    async createUser(createUserDto) {
-        const hash = await bcrypt.hash(createUserDto.password, 10);
+    async create(createUserDto) {
+        const hash = await bcrypt.hash(createUserDto.password, 6);
         const user = this.usersRepository.create({
             username: createUserDto.username,
             password: hash,
+            confirmPassword: hash,
             email: createUserDto.email
         });
         return this.usersRepository.save(user);
     }
-    async findAllUsers() {
+    async findAll() {
         return this.usersRepository.find();
     }
-    async findUserById(id) {
+    async findById(id) {
         const user = await this.usersRepository.findOne({ where: { id } });
         if (!user) {
             throw new Error('User not found');
         }
         return user;
     }
-    async findUserByUsername(username) {
-        return this.usersRepository.findOne({ where: { username } });
+    async findOne(email) {
+        return this.usersRepository.findOne({ where: { email } });
     }
-    async updateUser(id, updateUserDto) {
+    async update(id, updateUserDto) {
         const user = await this.usersRepository.update(id, updateUserDto);
         if (!user) {
             throw new Error('User not found');
         }
-        return this.findUserById(id);
+        return this.findById(id);
     }
     async remove(id) {
         await this.usersRepository.delete(id);
     }
     async validateUser(id, username, password) {
-        const user = await this.findUserById(id);
+        const user = await this.findById(id);
         if (!user)
             return null;
         const isValidPassword = await bcrypt.compare(password, user.password);

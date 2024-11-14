@@ -25,7 +25,9 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         this.usersService = usersService;
     }
     async validate(payload) {
-        const user = await this.usersService.findUserById(payload.sub);
+        const user = await this.usersService.findById(payload.sub);
+        console.log(`jwt.strategy.ts payload: ${JSON.stringify(payload)}`);
+        console.log(`jwt.strategy.ts validate: ${JSON.stringify(user)}`);
         if (!user) {
             throw new common_1.UnauthorizedException();
         }

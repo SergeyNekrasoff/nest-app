@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 
 /**
  * whatever the string pass in controller decorator it will be appended to
@@ -20,8 +21,8 @@ export class UsersController {
    * POST http://localhost:3000/users
    */
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto)
   }
 
   /**
@@ -29,9 +30,10 @@ export class UsersController {
    * so the API URL will be
    * GET http://localhost:3000/user
    */
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.usersService.findAllUsers();
+  async findAll() {
+    return this.usersService.findAll()
   }
 
   /**
@@ -41,7 +43,7 @@ export class UsersController {
    */
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.usersService.findUserById(id);
+    return this.usersService.findById(id)
   }
 
   /**
@@ -51,7 +53,7 @@ export class UsersController {
    */
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.updateUser(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto)
   }
 
   /**
@@ -61,6 +63,6 @@ export class UsersController {
    */
   @Delete(':id')
   remove(@Param('id') id: number) {
-    return this.usersService.remove(id);
+    return this.usersService.remove(id)
   }
 }

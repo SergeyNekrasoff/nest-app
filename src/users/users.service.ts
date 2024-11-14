@@ -19,22 +19,23 @@ export class UsersService {
    * we have defined what are the keys we are expecting from body
    * @returns promise of user
    */
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const hash = await bcrypt.hash(createUserDto.password, 10);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const hash = await bcrypt.hash(createUserDto.password, 6)
     const user = this.usersRepository.create({
       username: createUserDto.username,
       password: hash,
+      confirmPassword: hash,
       email: createUserDto.email
-    });
-    return this.usersRepository.save(user);
+    })
+    return this.usersRepository.save(user)
   }
 
   /**
    * this function is used to get all the user's list
    * @returns promise of array of users
    */
-  async findAllUsers(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find()
   }
 
   /**
@@ -42,21 +43,21 @@ export class UsersService {
    * @param id is type of number, which represent the id of user.
    * @returns promise of user
    */
-  async findUserById(id: number): Promise<User | undefined> {
-    const user = await this.usersRepository.findOne({ where: { id } });
+  async findById(id: number): Promise<User | undefined> {
+    const user = await this.usersRepository.findOne({ where: { id } })
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User not found')
     }
     return user
   }
 
   /**
-   * this function used to get data of use whose username is passed in parameter
-   * @param username is type of string, which represent the username of user.
+   * this function used to get data of use whose email is passed in parameter
+   * @param email is type of string, which represent the email of user.
    * @returns promise of user
    */
-  async findUserByUsername(username: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({ where: { username } });
+  async findOne(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { email } })
   }
 
   /**
@@ -66,12 +67,12 @@ export class UsersService {
    * @param updateUserDto this is partial type of createUserDto.
    * @returns promise of update user
    */
-  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.usersRepository.update(id, updateUserDto);
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.usersRepository.update(id, updateUserDto)
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User not found')
     }
-    return this.findUserById(id);
+    return this.findById(id)
   }
 
   /**
@@ -80,7 +81,7 @@ export class UsersService {
    * @returns nuber of rows deleted or affected
    */
   async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+    await this.usersRepository.delete(id)
   }
 
   async validateUser(
@@ -88,7 +89,7 @@ export class UsersService {
     username: string,
     password: string
   ): Promise<User | null> {
-    const user = await this.findUserById(id);
+    const user = await this.findById(id);
     if (!user) return null;
     const isValidPassword = await bcrypt.compare(password, user.password);
     return isValidPassword ? user : null;

@@ -5,10 +5,14 @@ const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors({
-        origin: ['https://nest-app-cyan.vercel.app/', 'http://localhost:3000'],
-        methods: 'GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH',
+        origin: [
+            "https://nest-app-cyan.vercel.app/",
+            "http://localhost:3000",
+            "http://localhost:5173",
+        ],
+        methods: "GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH",
         credentials: true,
-        allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authentication, Access-control-allow-credentials, Access-control-allow-headers, Access-control-allow-methods, Access-control-allow-origin, User-Agent, Referer, Accept-Encoding, Accept-Language, Access-Control-Request-Headers, Cache-Control, Pragma',
+        allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authentication, Access-control-allow-credentials, Access-control-allow-headers, Access-control-allow-methods, Access-control-allow-origin, User-Agent, Referer, Accept-Encoding, Accept-Language, Access-Control-Request-Headers, Cache-Control, Pragma",
     });
     await app.listen(3000);
 }

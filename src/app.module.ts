@@ -9,6 +9,8 @@ import { ChatModule } from './chat/chat.module';
 import { DocumentsModule } from './documents/documents.module';
 import { ConfigModule } from '@nestjs/config';
 import { ImageModule } from './image/image.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/strategies/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { ImageModule } from './image/image.module';
     TypeOrmModule.forRoot({
       ...CONNECTION,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -29,6 +31,12 @@ import { ImageModule } from './image/image.module';
     ImageModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard,
+    // }
+  ],
 })
 export class AppModule {}

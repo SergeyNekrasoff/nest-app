@@ -5,11 +5,11 @@ import { Repository } from 'typeorm';
 export declare class UsersService {
     private readonly usersRepository;
     constructor(usersRepository: Repository<User>);
-    createUser(createUserDto: CreateUserDto): Promise<User>;
-    findAllUsers(): Promise<User[]>;
-    findUserById(id: number): Promise<User | undefined>;
-    findUserByUsername(username: string): Promise<User | undefined>;
-    updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User>;
+    create(createUserDto: CreateUserDto): Promise<User>;
+    findAll(): Promise<User[]>;
+    findById(id: number): Promise<User | undefined>;
+    findOne(email: string): Promise<User | undefined>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<User>;
     remove(id: number): Promise<void>;
     validateUser(id: number, username: string, password: string): Promise<User | null>;
 }
