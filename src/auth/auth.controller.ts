@@ -4,8 +4,11 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { JwtAuthGuard } from './strategies/jwt-auth.guard';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { User } from 'src/users/entities/user.entity';
+import { Public } from './public.decorator';
 
 // Handle Login and Registration routes
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -19,8 +22,8 @@ export class AuthController {
     type: [CreateAuthDto],
   })
   @Post('login')
-  async login(@Body() payload: CreateAuthDto) {
-    return this.authService.login(payload.email, payload.password);
+  async login(@Body() payload: User) {
+    return this.authService.login(payload)
   }
 
   @HttpCode(HttpStatus.OK)
@@ -31,12 +34,12 @@ export class AuthController {
     description: 'The record found',
     type: [CreateUserDto],
   })
-  async signUp(@Body() payload: CreateUserDto) {
+  async signUp(@Body() payload: User) {
     const user = {
+      id: payload.id,
       username: payload.username,
       email: payload.email,
-      password: payload.password,
-      confirmPassword: payload.confirmPassword
+      password: payload.password
     }
 
     return this.authService.signUp(user)
@@ -51,6 +54,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    return req.user
   }
 }

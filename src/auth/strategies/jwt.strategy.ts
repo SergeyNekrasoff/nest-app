@@ -14,16 +14,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
+  // async validate(payload: any) {
+  //   const user = await this.usersService.findById(payload.sub)
+
+  //   console.log(`jwt.strategy.ts payload: ${JSON.stringify(payload)}`)
+  //   console.log(`jwt.strategy.ts validate: ${JSON.stringify(user)}`)
+
+  //   if (!user) {
+  //     throw new UnauthorizedException()
+  //   }
+
+  //   return user
+  // }
+
   async validate(payload: any) {
-    const user = await this.usersService.findById(payload.sub)
-
-    console.log(`jwt.strategy.ts payload: ${JSON.stringify(payload)}`)
-    console.log(`jwt.strategy.ts validate: ${JSON.stringify(user)}`)
-
-    if (!user) {
-      throw new UnauthorizedException()
-    }
-
-    return user
+    return payload
   }
 }

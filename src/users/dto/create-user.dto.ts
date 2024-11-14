@@ -18,10 +18,4 @@ export class CreateUserDto {
   @IsString()
   @MinLength(8)
   password: string;
-
-  @ApiProperty({ description: 'Confirm password for user' })
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(8)
-  confirmPassword: string;
 }

@@ -12,9 +12,6 @@ export class User {
   password: string
 
   @Column()
-  confirmPassword: string
-
-  @Column()
   email: string
 
   // @Column()

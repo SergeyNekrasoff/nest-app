@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ImageModule } from './image/image.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/strategies/jwt-auth.guard';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -33,10 +34,11 @@ import { JwtAuthGuard } from './auth/strategies/jwt-auth.guard';
   controllers: [AppController],
   providers: [
     AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: JwtAuthGuard,
-    // }
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    JwtStrategy,
   ],
 })
 export class AppModule {}

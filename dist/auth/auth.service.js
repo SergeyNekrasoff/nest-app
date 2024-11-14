@@ -13,23 +13,36 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
+const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
-    async login(email, password) {
+    async validateUser(email, password) {
         const user = await this.usersService.findOne(email);
-        if (user?.password !== password) {
-            throw new common_1.UnauthorizedException();
+        if (!user) {
+            throw new common_1.BadRequestException('User not found');
         }
-        const payload = { sub: user.id, email: user.email };
-        return {
-            access_token: await this.jwtService.signAsync(payload),
-        };
+        const isMatch = bcrypt.compareSync(password, user.password);
+        if (!isMatch) {
+            throw new common_1.BadRequestException('Password does not match');
+        }
+        return user;
     }
-    async signUp(payload) {
-        return this.usersService.create(payload);
+    async login(user) {
+        const payload = { email: user.email, id: user.id };
+        return { access_token: this.jwtService.sign(payload) };
+    }
+    async signUp(user) {
+        const existingUser = await this.usersService.findOne(user.email);
+        if (existingUser) {
+            throw new common_1.BadRequestException('Email already exists');
+        }
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        const newUser = { ...user, password: hashedPassword };
+        await this.usersService.create(newUser);
+        return this.login(newUser);
     }
 };
 exports.AuthService = AuthService;

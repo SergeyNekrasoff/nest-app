@@ -29,10 +29,6 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "confirmPassword", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()

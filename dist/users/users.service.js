@@ -27,7 +27,6 @@ let UsersService = class UsersService {
         const user = this.usersRepository.create({
             username: createUserDto.username,
             password: hash,
-            confirmPassword: hash,
             email: createUserDto.email
         });
         return this.usersRepository.save(user);
