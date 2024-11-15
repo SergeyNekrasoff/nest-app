@@ -22,7 +22,7 @@ let AppController = class AppController {
     }
     async getHello(req) {
         const accessTokenPayload = req.user;
-        return await this.appService.getHello(accessTokenPayload.userId);
+        return await this.appService.getHello(accessTokenPayload);
     }
 };
 exports.AppController = AppController;

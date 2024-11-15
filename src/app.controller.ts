@@ -10,6 +10,6 @@ export class AppController {
   @Get()
   async getHello(@Request() req): Promise<string> {
     const accessTokenPayload = req.user
-    return await this.appService.getHello(accessTokenPayload.userId);
+    return await this.appService.getHello(accessTokenPayload);
   }
 }
