@@ -1,39 +1,26 @@
-import { Controller, Get, Post, Body, HttpCode, HttpStatus, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, HttpStatus, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { JwtAuthGuard } from './strategies/jwt-auth.guard';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { ApiOperation } from '@nestjs/swagger';
 import { User } from 'src/users/entities/user.entity';
-import { Public } from './public.decorator';
+import { Public } from './decorators/public.decorator';
 
 // Handle Login and Registration routes
-@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Public()
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'User login' })
-  @ApiResponse({
-    status: 200,
-    description: 'The record found',
-    type: [CreateAuthDto],
-  })
+  @ApiOperation({ summary: 'User Sign-in' })
   @Post('login')
   async login(@Body() payload: User) {
-    return this.authService.login(payload)
+    return this.authService.signIn(payload)
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('signup')
-  @ApiOperation({ summary: 'User Signup' })
-  @ApiResponse({
-    status: 200,
-    description: 'The record found',
-    type: [CreateUserDto],
-  })
+  @ApiOperation({ summary: 'User Sign-up' })
   async signUp(@Body() payload: User) {
     const user = {
       id: payload.id,
@@ -45,13 +32,12 @@ export class AuthController {
     return this.authService.signUp(user)
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Public()
   @Post('logout')
   async logout() {
     return { message: 'Logged out successfully' }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user

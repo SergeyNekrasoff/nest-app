@@ -30,8 +30,8 @@ let AuthService = class AuthService {
         }
         return user;
     }
-    async login(user) {
-        const payload = { email: user.email, id: user.id };
+    async signIn(user) {
+        const payload = { email: user.email, password: user.password };
         return { access_token: this.jwtService.sign(payload) };
     }
     async signUp(user) {
@@ -42,7 +42,7 @@ let AuthService = class AuthService {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         const newUser = { ...user, password: hashedPassword };
         await this.usersService.create(newUser);
-        return this.login(newUser);
+        return this.signIn(newUser);
     }
 };
 exports.AuthService = AuthService;

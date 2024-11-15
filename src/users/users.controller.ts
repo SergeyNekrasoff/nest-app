@@ -1,8 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 
 /**
  * whatever the string pass in controller decorator it will be appended to
@@ -15,22 +13,10 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   /**
-   * Post decorator represents method of request as we have used post decorator the method
-   * of this API will be post.
-   * so the API URL to create User will be
-   * POST http://localhost:3000/users
-   */
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
-  }
-
-  /**
    * we have used get decorator to get all the user's list
    * so the API URL will be
    * GET http://localhost:3000/user
    */
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return this.usersService.findAll()

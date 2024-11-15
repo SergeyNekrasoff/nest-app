@@ -19,7 +19,7 @@ const documents_module_1 = require("./documents/documents.module");
 const config_1 = require("@nestjs/config");
 const image_module_1 = require("./image/image.module");
 const core_1 = require("@nestjs/core");
-const jwt_auth_guard_1 = require("./auth/strategies/jwt-auth.guard");
+const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
 const jwt_strategy_1 = require("./auth/strategies/jwt.strategy");
 let AppModule = class AppModule {
 };

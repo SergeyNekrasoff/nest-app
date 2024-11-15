@@ -10,7 +10,7 @@ import { DocumentsModule } from './documents/documents.module';
 import { ConfigModule } from '@nestjs/config';
 import { ImageModule } from './image/image.module';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/strategies/jwt-auth.guard';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 
 @Module({

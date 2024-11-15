@@ -29,8 +29,8 @@ export class AuthService {
     return user
   }
 
-  async login(user: User): Promise<{ access_token: string }> {
-    const payload = { email: user.email, id: user.id }
+  async signIn(user: User): Promise<{ access_token: string }> {
+    const payload = { email: user.email, password: user.password }
     return { access_token: this.jwtService.sign(payload) }
   }
 
@@ -46,24 +46,6 @@ export class AuthService {
 
     await this.usersService.create(newUser)
 
-    return this.login(newUser)
+    return this.signIn(newUser)
   }
-
-  // async login(email: string, password: string): Promise<{ access_token: string }> {
-  //   const user = await this.usersService.findOne(email)
-
-  //   if (user?.password !== password) {
-  //     throw new UnauthorizedException();
-  //   }
-
-  //   const payload = { sub: user.id, email: user.email }
-
-  //   return {
-  //     access_token: await this.jwtService.signAsync(payload),
-  //   }
-  // }
-
-  // async signUp(payload: CreateUserDto): Promise<any> {
-  //   return this.usersService.create(payload)
-  // }
 }

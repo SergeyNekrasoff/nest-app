@@ -1,5 +1,4 @@
-import { JwtService } from '@nestjs/jwt';
-import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
+import { ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from 'rxjs';
 import { AuthGuard } from '@nestjs/passport';

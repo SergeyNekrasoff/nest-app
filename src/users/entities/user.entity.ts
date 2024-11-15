@@ -1,9 +1,10 @@
+import { UUID } from "crypto";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number
+  id?: UUID
 
   @Column({ unique: true })
   username: string
@@ -13,10 +14,4 @@ export class User {
 
   @Column()
   email: string
-
-  // @Column()
-  // createdAt: Date
-
-  // @Column()
-  // updatedAt: Date
 }

@@ -42,7 +42,7 @@ export class UsersService {
    * @param id is type of number, which represent the id of user.
    * @returns promise of user
    */
-  async findById(id: number): Promise<User | undefined> {
+  async findById(id: any): Promise<User | undefined> {
     const user = await this.usersRepository.findOne({ where: { id } })
     if (!user) {
       throw new Error('User not found')
@@ -81,16 +81,5 @@ export class UsersService {
    */
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id)
-  }
-
-  async validateUser(
-    id: number,
-    username: string,
-    password: string
-  ): Promise<User | null> {
-    const user = await this.findById(id);
-    if (!user) return null;
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    return isValidPassword ? user : null;
   }
 }
