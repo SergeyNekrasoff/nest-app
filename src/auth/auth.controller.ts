@@ -35,12 +35,12 @@ export class AuthController {
     }
 
     this.eventEmitter.emit('user.welcome', {
-      name: 'Administrator textailor.io',
+      name: payload.username,
       email: payload.email,
     })
 
     this.eventEmitter.emit('user.verify-email', {
-      name: 'Administrator textailor.io',
+      name: payload.username,
       email: payload.email,
       otp: generateOTP(),
     })
