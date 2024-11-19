@@ -21,6 +21,8 @@ const image_module_1 = require("./image/image.module");
 const core_1 = require("@nestjs/core");
 const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
 const jwt_strategy_1 = require("./auth/strategies/jwt.strategy");
+const email_module_1 = require("./email/email.module");
+const email_service_1 = require("./email/email.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -41,6 +43,7 @@ exports.AppModule = AppModule = __decorate([
             chat_module_1.ChatModule,
             documents_module_1.DocumentsModule,
             image_module_1.ImageModule,
+            email_module_1.EmailModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [
@@ -50,6 +53,7 @@ exports.AppModule = AppModule = __decorate([
                 useClass: jwt_auth_guard_1.JwtAuthGuard,
             },
             jwt_strategy_1.JwtStrategy,
+            email_service_1.EmailService,
         ],
     })
 ], AppModule);

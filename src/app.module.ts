@@ -12,6 +12,8 @@ import { ImageModule } from './image/image.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { EmailModule } from './email/email.module';
+import { EmailService } from './email/email.service';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { JwtStrategy } from './auth/strategies/jwt.strategy';
     ChatModule,
     DocumentsModule,
     ImageModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [
@@ -39,6 +42,7 @@ import { JwtStrategy } from './auth/strategies/jwt.strategy';
       useClass: JwtAuthGuard,
     },
     JwtStrategy,
+    EmailService,
   ],
 })
 export class AppModule {}

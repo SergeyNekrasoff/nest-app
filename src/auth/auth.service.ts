@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { EmailService } from './../email/email.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-// import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly emailService: EmailService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -45,6 +46,11 @@ export class AuthService {
     const newUser: User = { ...user, password: hashedPassword }
 
     await this.usersService.create(newUser)
+
+    await this.emailService.sendWelcomeEmail({
+      email: user.email,
+      name: user.username
+    })
 
     return this.signIn(newUser)
   }

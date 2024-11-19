@@ -1,6 +1,7 @@
 import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 /**
  * whatever the string pass in controller decorator it will be appended to
@@ -47,6 +48,7 @@ export class UsersController {
    * so the API URL will be
    * DELETE http://localhost:3000/user/:id
    */
+  @Public()
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.usersService.remove(id)
