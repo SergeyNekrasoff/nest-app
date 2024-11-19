@@ -23,6 +23,8 @@ const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
 const jwt_strategy_1 = require("./auth/strategies/jwt.strategy");
 const email_module_1 = require("./email/email.module");
 const email_service_1 = require("./email/email.service");
+const event_emitter_1 = require("@nestjs/event-emitter");
+const typed_event_emitter_module_1 = require("./events/typed-event-emitter.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,6 +46,8 @@ exports.AppModule = AppModule = __decorate([
             documents_module_1.DocumentsModule,
             image_module_1.ImageModule,
             email_module_1.EmailModule,
+            event_emitter_1.EventEmitterModule.forRoot(),
+            typed_event_emitter_module_1.TypedEventEmitterModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

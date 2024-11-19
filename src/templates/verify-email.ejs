@@ -21,10 +21,10 @@
             <tr>
               <td class="email-masthead">
                 <a
-                  href="https://lp-textailor.vercel.app/"
+                  href="https://example.com"
                   class="f-fallback email-masthead_name"
                 >
-                  Welcome to Textailor
+                  Welcome to company
                 </a>
               </td>
             </tr>
@@ -48,15 +48,44 @@
                   <tr>
                     <td class="content-cell">
                       <div class="f-fallback">
-                        <h1>Welcome, <%= locals.name %>!</h1>
+                        <h1>Hi, <%= locals.name %>!</h1>
                         <p>
-                          Thanks for trying Textailor editor. We’re thrilled to have you
-                          on board.
+                          To Verify Your Email. Please Enter The OTP Below To
+                          Verify Your Email.
                         </p>
+                        <!-- Action -->
+
+                        <p>For reference, here's your otp information:</p>
+                        <table
+                          class="attributes"
+                          width="100%"
+                          cellpadding="0"
+                          cellspacing="0"
+                          role="presentation"
+                        >
+                          <tr>
+                            <td class="attributes_content">
+                              <table
+                                width="100%"
+                                cellpadding="0"
+                                cellspacing="0"
+                                role="presentation"
+                              >
+                                <tr>
+                                  <td class="attributes_item">
+                                    <span class="f-fallback">
+                                      <strong>OTP:</strong> <%= locals.otp %>
+                                    </span>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
 
                         <p>
                           If you have any questions, feel free to
-                          <a href="mailto:textailorio@gmailcompany.com"
+                          <a href="mailto:textailorio@gmail.com"
                             >email our customer success team</a
                           >. (We're lightning quick at replying.) We also offer
                           during business hours.

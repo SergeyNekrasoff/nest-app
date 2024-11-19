@@ -18,9 +18,12 @@ const auth_service_1 = require("./auth.service");
 const swagger_1 = require("@nestjs/swagger");
 const user_entity_1 = require("../users/entities/user.entity");
 const public_decorator_1 = require("./decorators/public.decorator");
+const utils_1 = require("../utils");
+const typed_event_emitter_class_1 = require("../events/typed-event-emitter.class");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, eventEmitter) {
         this.authService = authService;
+        this.eventEmitter = eventEmitter;
     }
     async login(payload) {
         return this.authService.signIn(payload);
@@ -32,6 +35,15 @@ let AuthController = class AuthController {
             email: payload.email,
             password: payload.password
         };
+        this.eventEmitter.emit('user.welcome', {
+            name: 'Administrator textailor.io',
+            email: payload.email,
+        });
+        this.eventEmitter.emit('user.verify-email', {
+            name: 'Administrator textailor.io',
+            email: payload.email,
+            otp: (0, utils_1.generateOTP)(),
+        });
         return this.authService.signUp(user);
     }
     async logout() {
@@ -78,6 +90,7 @@ __decorate([
 ], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        typed_event_emitter_class_1.TypedEventEmitter])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map
