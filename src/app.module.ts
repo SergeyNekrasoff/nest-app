@@ -14,6 +14,8 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { EmailModule } from './email/email.module';
 import { EmailService } from './email/email.service';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { TypedEventEmitterModule } from './events/typed-event-emitter.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { EmailService } from './email/email.service';
     DocumentsModule,
     ImageModule,
     EmailModule,
+    EventEmitterModule.forRoot(),
+    TypedEventEmitterModule,
   ],
   controllers: [AppController],
   providers: [

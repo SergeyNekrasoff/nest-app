@@ -3,11 +3,16 @@ import { AuthService } from './auth.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { User } from 'src/users/entities/user.entity';
 import { Public } from './decorators/public.decorator';
+import { generateOTP } from 'src/utils';
+import { TypedEventEmitter } from 'src/events/typed-event-emitter.class';
 
 // Handle Login and Registration routes
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly eventEmitter: TypedEventEmitter,
+  ) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -28,6 +33,17 @@ export class AuthController {
       email: payload.email,
       password: payload.password
     }
+
+    this.eventEmitter.emit('user.welcome', {
+      name: 'Administrator textailor.io',
+      email: payload.email,
+    })
+
+    this.eventEmitter.emit('user.verify-email', {
+      name: 'Administrator textailor.io',
+      email: payload.email,
+      otp: generateOTP(),
+    })
 
     return this.authService.signUp(user)
   }
