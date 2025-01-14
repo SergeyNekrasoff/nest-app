@@ -48,7 +48,6 @@ export class AuthController {
     return this.authService.signUp(user)
   }
 
-  @Public()
   @Post('logout')
   async logout() {
     return { message: 'Logged out successfully' }

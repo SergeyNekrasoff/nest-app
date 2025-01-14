@@ -48,7 +48,6 @@ export class UsersController {
    * so the API URL will be
    * DELETE http://localhost:3000/user/:id
    */
-  @Public()
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.usersService.remove(id)

@@ -75,7 +75,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signUp", null);
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Post)('logout'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

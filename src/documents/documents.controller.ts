@@ -15,17 +15,17 @@ export class DocumentController {
   findAll() {
     return this.documentsService.findAll();
   }
-
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.documentsService.findOne(parseInt(id));
   }
-
+  
   @Put(':id')
   update(@Param('id') id: string, updateDocumentDto: CreateDocumentDto) {
     return this.documentsService.update(parseInt(id), updateDocumentDto);
   }
-
+  
   @Delete()
   delete(@Param('id') id: string) {
     return this.documentsService.remove(parseInt(id));
