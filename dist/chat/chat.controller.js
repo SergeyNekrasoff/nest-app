@@ -16,6 +16,7 @@ exports.ChatController = void 0;
 const common_1 = require("@nestjs/common");
 const chat_service_1 = require("./chat.service");
 const generate_chat_dto_1 = require("./dto/generate-chat.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
@@ -26,6 +27,7 @@ let ChatController = class ChatController {
 };
 exports.ChatController = ChatController;
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),

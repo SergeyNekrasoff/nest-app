@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DocumentEntity } from './entities/documents.entity';
 import { Repository } from 'typeorm';
-import { CreateDocumentDto } from './dto/create-document.dto';
+import { CreateDocumentDto, CreateDocumentPatchDto } from './dto/create-document.dto';
 
 @Injectable()
 export class DocumentsService {
@@ -24,15 +24,17 @@ export class DocumentsService {
     return this.documentsRepository.findOneBy({ id });
   }
 
-  async update(id: number, updateDocumentDto: CreateDocumentDto): Promise<DocumentEntity> {
-    const documentToUpdate = await this.findOne(id);
+  async update(id: number, payload: CreateDocumentDto): Promise<DocumentEntity> {
+    const document = await this.documentsRepository.findOne({
+      where: { id }
+    });
     
-    if (!documentToUpdate) {
+    if (!document) {
       throw new Error('Document not found');
     }
 
-    Object.assign(documentToUpdate, updateDocumentDto);
-    return this.documentsRepository.save(documentToUpdate);
+    Object.assign(document, payload);
+    return this.documentsRepository.save(document);
   }
 
   async remove(id: number): Promise<void> {

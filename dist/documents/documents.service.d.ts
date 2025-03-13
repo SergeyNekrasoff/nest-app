@@ -7,6 +7,6 @@ export declare class DocumentsService {
     create(createDocument: CreateDocumentDto): Promise<DocumentEntity>;
     findAll(): Promise<DocumentEntity[]>;
     findOne(id: number): Promise<DocumentEntity>;
-    update(id: number, updateDocumentDto: CreateDocumentDto): Promise<DocumentEntity>;
+    update(id: number, payload: CreateDocumentDto): Promise<DocumentEntity>;
     remove(id: number): Promise<void>;
 }

@@ -31,13 +31,15 @@ let DocumentsService = class DocumentsService {
     async findOne(id) {
         return this.documentsRepository.findOneBy({ id });
     }
-    async update(id, updateDocumentDto) {
-        const documentToUpdate = await this.findOne(id);
-        if (!documentToUpdate) {
+    async update(id, payload) {
+        const document = await this.documentsRepository.findOne({
+            where: { id }
+        });
+        if (!document) {
             throw new Error('Document not found');
         }
-        Object.assign(documentToUpdate, updateDocumentDto);
-        return this.documentsRepository.save(documentToUpdate);
+        Object.assign(document, payload);
+        return this.documentsRepository.save(document);
     }
     async remove(id) {
         await this.documentsRepository.delete(id);

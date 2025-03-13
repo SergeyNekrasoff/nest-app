@@ -16,6 +16,7 @@ exports.DocumentController = void 0;
 const documents_service_1 = require("./documents.service");
 const common_1 = require("@nestjs/common");
 const create_document_dto_1 = require("./dto/create-document.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let DocumentController = class DocumentController {
     constructor(documentsService) {
         this.documentsService = documentsService;
@@ -27,17 +28,22 @@ let DocumentController = class DocumentController {
         return this.documentsService.findAll();
     }
     findOne(id) {
-        return this.documentsService.findOne(parseInt(id));
+        return this.documentsService.findOne(id);
     }
-    update(id, updateDocumentDto) {
-        return this.documentsService.update(parseInt(id), updateDocumentDto);
+    update(id, payload) {
+        const updatedDocument = this.documentsService.update(id, payload);
+        if (!updatedDocument) {
+            throw new common_1.HttpException('Document not found', common_1.HttpStatus.NOT_FOUND);
+        }
+        return updatedDocument;
     }
     delete(id) {
-        return this.documentsService.remove(parseInt(id));
+        return this.documentsService.remove(id);
     }
 };
 exports.DocumentController = DocumentController;
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -45,30 +51,35 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "create", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "findAll", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Put)(':id'),
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, create_document_dto_1.CreateDocumentDto]),
+    __metadata("design:paramtypes", [Number, create_document_dto_1.CreateDocumentDto]),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(),
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "delete", null);
 exports.DocumentController = DocumentController = __decorate([

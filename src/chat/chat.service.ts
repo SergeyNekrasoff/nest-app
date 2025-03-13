@@ -20,7 +20,7 @@ export class ChatService {
         model: generatedChatDto.model || 'gpt-3.5-turbo',
         messages: [
           {
-            role: 'user',
+            role: 'assistant',
             content: generatedChatDto.prompt,
           },
         ],
