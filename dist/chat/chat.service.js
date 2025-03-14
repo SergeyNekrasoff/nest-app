@@ -26,12 +26,11 @@ let ChatService = class ChatService {
                 model: generatedChatDto.model || 'gpt-3.5-turbo',
                 messages: [
                     {
-                        role: 'assistant',
+                        role: 'user',
                         content: generatedChatDto.prompt,
                     },
                 ],
                 max_tokens: generatedChatDto.maxTokens || 150,
-                temperature: generatedChatDto.temperature || 1,
             });
             return chatCompletion.choices[0]?.message.content;
         }

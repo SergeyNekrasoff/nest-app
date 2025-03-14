@@ -27,15 +27,14 @@ let DocumentController = class DocumentController {
     findAll() {
         return this.documentsService.findAll();
     }
+    search(title) {
+        return this.documentsService.findByTitle(title);
+    }
     findOne(id) {
         return this.documentsService.findOne(id);
     }
     update(id, payload) {
-        const updatedDocument = this.documentsService.update(id, payload);
-        if (!updatedDocument) {
-            throw new common_1.HttpException('Document not found', common_1.HttpStatus.NOT_FOUND);
-        }
-        return updatedDocument;
+        return this.documentsService.update(id, payload);
     }
     delete(id) {
         return this.documentsService.remove(id);
@@ -57,6 +56,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "findAll", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Query)('title')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], DocumentController.prototype, "search", null);
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':id'),

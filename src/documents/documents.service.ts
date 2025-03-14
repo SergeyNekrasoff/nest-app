@@ -40,4 +40,18 @@ export class DocumentsService {
   async remove(id: number): Promise<void> {
     await this.documentsRepository.delete(id);
   }
+
+  async findByTitle(title: string): Promise<DocumentEntity[]> {
+    try {
+      const documents = await this.documentsRepository
+        .createQueryBuilder('document')
+        .where('LOWER(document.title) LIKE LOWER(:title)',
+          { title: `%${title}%` })
+        .getMany()
+  
+      return documents || []
+    } catch (error) {
+      throw new Error(`Search error: ${error.message}`)
+    }
+  }
 }

@@ -9,4 +9,5 @@ export declare class DocumentsService {
     findOne(id: number): Promise<DocumentEntity>;
     update(id: number, payload: CreateDocumentDto): Promise<DocumentEntity>;
     remove(id: number): Promise<void>;
+    findByTitle(title: string): Promise<DocumentEntity[]>;
 }

@@ -44,6 +44,18 @@ let DocumentsService = class DocumentsService {
     async remove(id) {
         await this.documentsRepository.delete(id);
     }
+    async findByTitle(title) {
+        try {
+            const documents = await this.documentsRepository
+                .createQueryBuilder('document')
+                .where('LOWER(document.title) LIKE LOWER(:title)', { title: `%${title}%` })
+                .getMany();
+            return documents || [];
+        }
+        catch (error) {
+            throw new Error(`Search error: ${error.message}`);
+        }
+    }
 };
 exports.DocumentsService = DocumentsService;
 exports.DocumentsService = DocumentsService = __decorate([

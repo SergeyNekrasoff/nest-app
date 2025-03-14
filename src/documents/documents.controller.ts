@@ -1,7 +1,8 @@
 import { DocumentsService } from './documents.service';
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put, Query } from "@nestjs/common";
 import { CreateDocumentDto, CreateDocumentPatchDto } from './dto/create-document.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { DocumentEntity } from './entities/documents.entity';
 
 @Controller('documents')
 export class DocumentController {
@@ -20,23 +21,24 @@ export class DocumentController {
   }
   
   @Public()
+  @Get('search')
+  search(@Query('title') title: string): Promise<DocumentEntity[]> {
+    return this.documentsService.findByTitle(title);
+  }
+
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.documentsService.findOne(id);
   }
-  
+
   @Public()
   @Patch(':id')
   update(
     @Param('id') id: number,
     @Body() payload: CreateDocumentDto
   ) {
-    const updatedDocument = this.documentsService.update(id, payload);
-    if (!updatedDocument) {
-      throw new HttpException('Document not found', HttpStatus.NOT_FOUND);
-    }
-
-    return updatedDocument
+    return this.documentsService.update(id, payload);
   }
   
   @Public()
