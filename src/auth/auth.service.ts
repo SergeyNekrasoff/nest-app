@@ -5,7 +5,6 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
-// Inject UsersService and JwtService
 @Injectable()
 export class AuthService {
   constructor(
@@ -14,44 +13,27 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.usersService.findOne(email)
+  async login(payload: User) {
+    const user = await this.usersService.validateUser(payload)
+    const userData = { email: payload.email, password: payload.password }
 
-    if (!user) {
-      throw new BadRequestException('User not found')
-    }
-
-    const isMatch: boolean = bcrypt.compareSync(password, user.password)
-
-    if (!isMatch) {
-      throw new BadRequestException('Password does not match')
-    }
-
-    return user
+    return { ...user, access_token: this.jwtService.sign(userData) }
   }
 
-  async signIn(user: User): Promise<{ access_token: string }> {
-    const payload = { email: user.email, password: user.password }
-    return { access_token: this.jwtService.sign(payload) }
-  }
-
-  async signUp(user: User): Promise<{ access_token: string }> {
+  async register(user: User) {
     const existingUser = await this.usersService.findOne(user.email)
     
     if (existingUser) {
       throw new BadRequestException('Email already exists')
     }
 
-    const hashedPassword = await bcrypt.hash(user.password, 10)
-    const newUser: User = { ...user, password: hashedPassword }
-
-    await this.usersService.create(newUser)
+    await this.usersService.create(user)
 
     await this.emailService.sendWelcomeEmail({
       email: user.email,
       name: user.username
     })
 
-    return this.signIn(newUser)
+    return this.login(user)
   }
 }

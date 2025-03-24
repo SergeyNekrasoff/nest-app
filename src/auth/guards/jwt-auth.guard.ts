@@ -1,8 +1,5 @@
-// import { JwtAuthGuard } from './jwt-auth.guard';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { Observable } from 'rxjs';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtService } from "@nestjs/jwt";
 import { IS_PUBLIC_KEY } from "../decorators/public.decorator";
 import { jwtConstants } from "../constants";
@@ -22,9 +19,11 @@ export class JwtAuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest()
     const token = this.extractTokenFromHeader(request)
+
     if (!token) {
       throw new UnauthorizedException();
     }
+
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
@@ -33,6 +32,7 @@ export class JwtAuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException()
     }
+
     return true
   }
 

@@ -7,11 +7,18 @@ export declare class AuthService {
     private readonly emailService;
     private readonly jwtService;
     constructor(usersService: UsersService, emailService: EmailService, jwtService: JwtService);
-    validateUser(email: string, password: string): Promise<User>;
-    signIn(user: User): Promise<{
+    login(payload: User): Promise<{
         access_token: string;
+        id?: import("crypto").UUID;
+        email: string;
+        username: string;
+        password: string;
     }>;
-    signUp(user: User): Promise<{
+    register(user: User): Promise<{
         access_token: string;
+        id?: import("crypto").UUID;
+        email: string;
+        username: string;
+        password: string;
     }>;
 }

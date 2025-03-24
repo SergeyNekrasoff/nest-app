@@ -22,8 +22,15 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
+    async validateUser(userData) {
+        const email = userData.email;
+        const password = userData.password;
+        const user = await this.usersRepository.findOne({ where: { email } });
+        const isMatch = bcrypt.compareSync(password, user.password);
+        return user;
+    }
     async create(createUserDto) {
-        const hash = await bcrypt.hash(createUserDto.password, 6);
+        const hash = await bcrypt.hashSync(createUserDto.password, 6);
         const user = this.usersRepository.create({
             username: createUserDto.username,
             password: hash,
@@ -53,6 +60,12 @@ let UsersService = class UsersService {
     }
     async remove(id) {
         await this.usersRepository.delete(id);
+    }
+    async getUser(id) {
+        return await this.usersRepository.findOne({
+            where: { id },
+            relations: ['profile'],
+        });
     }
 };
 exports.UsersService = UsersService;

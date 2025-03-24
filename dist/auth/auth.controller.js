@@ -26,7 +26,7 @@ let AuthController = class AuthController {
         this.eventEmitter = eventEmitter;
     }
     async login(payload) {
-        return this.authService.signIn(payload);
+        return this.authService.login(payload);
     }
     async signUp(payload) {
         const user = {
@@ -44,20 +44,17 @@ let AuthController = class AuthController {
             email: payload.email,
             otp: (0, utils_1.generateOTP)(),
         });
-        return this.authService.signUp(user);
+        return this.authService.register(user);
     }
     async logout() {
-        return { message: 'Logged out successfully' };
-    }
-    getProfile(req) {
-        return req.user;
+        return { status: 200, message: 'Logged out successfully' };
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, swagger_1.ApiOperation)({ summary: 'User Sign-in' }),
+    (0, swagger_1.ApiOperation)({ summary: 'User login' }),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -67,8 +64,8 @@ __decorate([
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Post)('signup'),
-    (0, swagger_1.ApiOperation)({ summary: 'User Sign-up' }),
+    (0, common_1.Post)('register'),
+    (0, swagger_1.ApiOperation)({ summary: 'User register' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.User]),
@@ -80,13 +77,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
-__decorate([
-    (0, common_1.Get)('profile'),
-    __param(0, (0, common_1.Request)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,

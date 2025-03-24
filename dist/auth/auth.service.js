@@ -14,41 +14,28 @@ const email_service_1 = require("./../email/email.service");
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
-const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     constructor(usersService, emailService, jwtService) {
         this.usersService = usersService;
         this.emailService = emailService;
         this.jwtService = jwtService;
     }
-    async validateUser(email, password) {
-        const user = await this.usersService.findOne(email);
-        if (!user) {
-            throw new common_1.BadRequestException('User not found');
-        }
-        const isMatch = bcrypt.compareSync(password, user.password);
-        if (!isMatch) {
-            throw new common_1.BadRequestException('Password does not match');
-        }
-        return user;
+    async login(payload) {
+        const user = await this.usersService.validateUser(payload);
+        const userData = { email: payload.email, password: payload.password };
+        return { ...user, access_token: this.jwtService.sign(userData) };
     }
-    async signIn(user) {
-        const payload = { email: user.email, password: user.password };
-        return { access_token: this.jwtService.sign(payload) };
-    }
-    async signUp(user) {
+    async register(user) {
         const existingUser = await this.usersService.findOne(user.email);
         if (existingUser) {
             throw new common_1.BadRequestException('Email already exists');
         }
-        const hashedPassword = await bcrypt.hash(user.password, 10);
-        const newUser = { ...user, password: hashedPassword };
-        await this.usersService.create(newUser);
+        await this.usersService.create(user);
         await this.emailService.sendWelcomeEmail({
             email: user.email,
             name: user.username
         });
-        return this.signIn(newUser);
+        return this.login(user);
     }
 };
 exports.AuthService = AuthService;

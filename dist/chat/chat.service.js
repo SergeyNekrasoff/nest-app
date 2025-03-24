@@ -15,8 +15,8 @@ const openai_1 = require("openai");
 let ChatService = class ChatService {
     constructor() {
         this.client = new openai_1.default({
-            apiKey: process.env.OPENAI_API_KEY,
-            baseURL: process.env.OPENAI_API_URL,
+            apiKey: 'sk-aitunnel-dPP1jpkcadJ0cKjCLM7T4CN8iTvp39pK',
+            baseURL: 'https://api.aitunnel.ru/v1/',
         });
     }
     async generateResponse(generatedChatDto) {

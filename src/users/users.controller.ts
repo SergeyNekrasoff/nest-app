@@ -1,7 +1,6 @@
 import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
 
 /**
  * whatever the string pass in controller decorator it will be appended to
@@ -12,7 +11,6 @@ import { Public } from 'src/auth/decorators/public.decorator';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
   /**
    * we have used get decorator to get all the user's list
    * so the API URL will be

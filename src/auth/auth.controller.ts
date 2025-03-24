@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, HttpCode, HttpStatus, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, HttpStatus, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { User } from 'src/users/entities/user.entity';
 import { Public } from './decorators/public.decorator';
 import { generateOTP } from 'src/utils';
 import { TypedEventEmitter } from 'src/events/typed-event-emitter.class';
+// import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
-// Handle Login and Registration routes
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -16,16 +16,16 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'User Sign-in' })
+  @ApiOperation({ summary: 'User login' })
   @Post('login')
   async login(@Body() payload: User) {
-    return this.authService.signIn(payload)
+    return this.authService.login(payload)
   }
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('signup')
-  @ApiOperation({ summary: 'User Sign-up' })
+  @Post('register')
+  @ApiOperation({ summary: 'User register' })
   async signUp(@Body() payload: User) {
     const user = {
       id: payload.id,
@@ -45,16 +45,17 @@ export class AuthController {
       otp: generateOTP(),
     })
 
-    return this.authService.signUp(user)
+    return this.authService.register(user)
   }
 
   @Post('logout')
   async logout() {
-    return { message: 'Logged out successfully' }
+    return { status: 200, message: 'Logged out successfully' }
   }
 
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('profile')
+  // getProfile(@Request() req) {
+  //   return this.authService.validateUser(req.user)
+  // }
 }

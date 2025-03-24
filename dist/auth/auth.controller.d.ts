@@ -7,12 +7,20 @@ export declare class AuthController {
     constructor(authService: AuthService, eventEmitter: TypedEventEmitter);
     login(payload: User): Promise<{
         access_token: string;
+        id?: import("crypto").UUID;
+        email: string;
+        username: string;
+        password: string;
     }>;
     signUp(payload: User): Promise<{
         access_token: string;
+        id?: import("crypto").UUID;
+        email: string;
+        username: string;
+        password: string;
     }>;
     logout(): Promise<{
+        status: number;
         message: string;
     }>;
-    getProfile(req: any): any;
 }

@@ -16,7 +16,6 @@ exports.DocumentController = void 0;
 const documents_service_1 = require("./documents.service");
 const common_1 = require("@nestjs/common");
 const create_document_dto_1 = require("./dto/create-document.dto");
-const public_decorator_1 = require("../auth/decorators/public.decorator");
 let DocumentController = class DocumentController {
     constructor(documentsService) {
         this.documentsService = documentsService;
@@ -42,7 +41,6 @@ let DocumentController = class DocumentController {
 };
 exports.DocumentController = DocumentController;
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -50,14 +48,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "create", null);
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "findAll", null);
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Get)('search'),
     __param(0, (0, common_1.Query)('title')),
     __metadata("design:type", Function),
@@ -65,7 +61,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DocumentController.prototype, "search", null);
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -73,7 +68,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "findOne", null);
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -82,7 +76,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DocumentController.prototype, "update", null);
 __decorate([
-    (0, public_decorator_1.Public)(),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

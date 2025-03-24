@@ -1,10 +1,10 @@
-import { AuthService } from './../auth.service';
 import { Strategy } from "passport-jwt";
-import { CreateAuthDto } from '../dto/create-auth.dto';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/entities/user.entity';
 declare const JwtStrategy_base: new (...args: any[]) => Strategy;
 export declare class JwtStrategy extends JwtStrategy_base {
-    private readonly authService;
-    constructor(authService: AuthService);
-    validate(payload: CreateAuthDto): Promise<import("../../users/entities/user.entity").User>;
+    private readonly usersServices;
+    constructor(usersServices: UsersService);
+    validate(payload: User): Promise<User>;
 }
 export {};
