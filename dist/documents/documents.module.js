@@ -9,18 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentsModule = void 0;
 const common_1 = require("@nestjs/common");
 const documents_service_1 = require("./documents.service");
-const documents_gateway_1 = require("./documents.gateway");
 const typeorm_1 = require("@nestjs/typeorm");
 const documents_entity_1 = require("./entities/documents.entity");
 const documents_controller_1 = require("./documents.controller");
+const user_entity_1 = require("../users/entities/user.entity");
 let DocumentsModule = class DocumentsModule {
 };
 exports.DocumentsModule = DocumentsModule;
 exports.DocumentsModule = DocumentsModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([documents_entity_1.DocumentEntity])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, documents_entity_1.Document])],
         controllers: [documents_controller_1.DocumentController],
-        providers: [documents_gateway_1.DocumentsGateway, documents_service_1.DocumentsService],
+        providers: [documents_service_1.DocumentsService],
     })
 ], DocumentsModule);
 //# sourceMappingURL=documents.module.js.map

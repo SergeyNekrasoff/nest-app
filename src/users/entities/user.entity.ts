@@ -1,10 +1,12 @@
-import { UUID } from "crypto";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Document } from "src/documents/entities/documents.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id?: UUID
+  @PrimaryGeneratedColumn({
+    type: 'integer',
+  })
+  id: number
 
   @Column()
   email: string
@@ -14,4 +16,7 @@ export class User {
 
   @Column()
   password: string
+
+  @OneToMany(() => Document, document => document.creator)
+  documents: Document[]
 }

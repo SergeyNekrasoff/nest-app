@@ -1,7 +1,8 @@
-import { UUID } from "crypto";
+import { Document } from "src/documents/entities/documents.entity";
 export declare class User {
-    id?: UUID;
+    id: number;
     email: string;
     username: string;
     password: string;
+    documents: Document[];
 }

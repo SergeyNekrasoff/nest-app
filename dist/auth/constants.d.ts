@@ -1,3 +1,4 @@
 export declare const jwtConstants: {
-    secret: string;
+    access_token: string;
+    refresh_token: string;
 };

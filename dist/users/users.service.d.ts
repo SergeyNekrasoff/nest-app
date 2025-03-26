@@ -8,7 +8,7 @@ export declare class UsersService {
     validateUser(userData: User): Promise<User>;
     create(createUserDto: CreateUserDto): Promise<User>;
     findAll(): Promise<User[]>;
-    findById(id: any): Promise<User | undefined>;
+    findById(id: number): Promise<User | undefined>;
     findOne(email: string): Promise<User | undefined>;
     update(id: number, updateUserDto: UpdateUserDto): Promise<User>;
     remove(id: number): Promise<void>;

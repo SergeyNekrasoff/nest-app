@@ -13,17 +13,28 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentsService = void 0;
+const documents_entity_1 = require("./entities/documents.entity");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const documents_entity_1 = require("./entities/documents.entity");
+const user_entity_1 = require("../users/entities/user.entity");
 const typeorm_2 = require("typeorm");
 let DocumentsService = class DocumentsService {
-    constructor(documentsRepository) {
+    constructor(documentsRepository, usersRepository) {
         this.documentsRepository = documentsRepository;
+        this.usersRepository = usersRepository;
     }
-    async create(createDocument) {
-        const newDocument = this.documentsRepository.create(createDocument);
-        return this.documentsRepository.save(newDocument);
+    async create(payload) {
+        const { title, content, userId } = payload;
+        const user = await this.usersRepository.findOneBy({ id: userId });
+        if (!user) {
+            throw new common_1.NotFoundException('User not found');
+        }
+        const document = this.documentsRepository.create({
+            title,
+            content,
+            creator: user
+        });
+        return this.documentsRepository.save(document);
     }
     async findAll() {
         return this.documentsRepository.find();
@@ -60,7 +71,9 @@ let DocumentsService = class DocumentsService {
 exports.DocumentsService = DocumentsService;
 exports.DocumentsService = DocumentsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(documents_entity_1.DocumentEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, typeorm_1.InjectRepository)(documents_entity_1.Document)),
+    __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], DocumentsService);
 //# sourceMappingURL=documents.service.js.map

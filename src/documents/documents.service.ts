@@ -1,30 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Document } from 'src/documents/entities/documents.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DocumentEntity } from './entities/documents.entity';
+import { CreateDocumentDto } from './dto/create-document.dto';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateDocumentDto, CreateDocumentPatchDto } from './dto/create-document.dto';
 
 @Injectable()
 export class DocumentsService {
   constructor(
-    @InjectRepository(DocumentEntity)
-    private readonly documentsRepository: Repository<DocumentEntity>,
+    @InjectRepository(Document)
+    private readonly documentsRepository: Repository<Document>,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
-  async create(createDocument: CreateDocumentDto): Promise<DocumentEntity> {
-    const newDocument = this.documentsRepository.create(createDocument);
-    return this.documentsRepository.save(newDocument);
+  async create(payload: CreateDocumentDto): Promise<Document> {
+    const { title, content, userId } = payload
+    const user = await this.usersRepository.findOneBy({ id: userId })
+
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+
+    const document = this.documentsRepository.create({
+      title,
+      content,
+      creator: user
+    });
+
+    return this.documentsRepository.save(document);
   }
 
-  async findAll(): Promise<DocumentEntity[]> {
+  async findAll(): Promise<Document[]> {
     return this.documentsRepository.find();
   }
 
-  async findOne(id: number): Promise<DocumentEntity> {
+  async findOne(id: number): Promise<Document> {
     return this.documentsRepository.findOneBy({ id });
   }
 
-  async update(id: number, payload: CreateDocumentDto): Promise<DocumentEntity> {
+  async update(id: number, payload: CreateDocumentDto): Promise<Document> {
     const document = await this.documentsRepository.findOne({
       where: { id }
     });
@@ -41,7 +56,7 @@ export class DocumentsService {
     await this.documentsRepository.delete(id);
   }
 
-  async findByTitle(title: string): Promise<DocumentEntity[]> {
+  async findByTitle(title: string): Promise<Document[]> {
     try {
       const documents = await this.documentsRepository
         .createQueryBuilder('document')

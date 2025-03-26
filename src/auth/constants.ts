@@ -1,3 +1,4 @@
 export const jwtConstants = {
-  secret: process.env.JWT_SECRET
+  access_token: process.env.JWT_ACCESS_TOKEN,
+  refresh_token: process.env.JWT_REFRESH_TOKEN,
 }

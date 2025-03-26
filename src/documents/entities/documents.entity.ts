@@ -1,8 +1,11 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "src/users/entities/user.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
-export class DocumentEntity {
-  @PrimaryGeneratedColumn()
+export class Document {
+  @PrimaryColumn({
+    type: 'integer'
+  })
   id: number;
 
   @Column()
@@ -16,4 +19,8 @@ export class DocumentEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => User, user => user.documents)
+  @JoinColumn({ name: 'id' })
+  creator: User
 }

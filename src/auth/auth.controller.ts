@@ -31,7 +31,8 @@ export class AuthController {
       id: payload.id,
       username: payload.username,
       email: payload.email,
-      password: payload.password
+      password: payload.password,
+      documents: []
     }
 
     this.eventEmitter.emit('user.welcome', {

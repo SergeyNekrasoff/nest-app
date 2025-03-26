@@ -9,16 +9,18 @@ export declare class AuthService {
     constructor(usersService: UsersService, emailService: EmailService, jwtService: JwtService);
     login(payload: User): Promise<{
         access_token: string;
-        id?: import("crypto").UUID;
+        id: number;
         email: string;
         username: string;
         password: string;
+        documents: import("../documents/entities/documents.entity").Document[];
     }>;
     register(user: User): Promise<{
         access_token: string;
-        id?: import("crypto").UUID;
+        id: number;
         email: string;
         username: string;
         password: string;
+        documents: import("../documents/entities/documents.entity").Document[];
     }>;
 }

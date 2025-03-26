@@ -7,17 +7,19 @@ export declare class AuthController {
     constructor(authService: AuthService, eventEmitter: TypedEventEmitter);
     login(payload: User): Promise<{
         access_token: string;
-        id?: import("crypto").UUID;
+        id: number;
         email: string;
         username: string;
         password: string;
+        documents: import("../documents/entities/documents.entity").Document[];
     }>;
     signUp(payload: User): Promise<{
         access_token: string;
-        id?: import("crypto").UUID;
+        id: number;
         email: string;
         username: string;
         password: string;
+        documents: import("../documents/entities/documents.entity").Document[];
     }>;
     logout(): Promise<{
         status: number;

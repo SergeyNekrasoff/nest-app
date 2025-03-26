@@ -9,32 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DocumentEntity = void 0;
+exports.Document = void 0;
+const user_entity_1 = require("../../users/entities/user.entity");
 const typeorm_1 = require("typeorm");
-let DocumentEntity = class DocumentEntity {
+let Document = class Document {
 };
-exports.DocumentEntity = DocumentEntity;
+exports.Document = Document;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    (0, typeorm_1.PrimaryColumn)({
+        type: 'integer'
+    }),
     __metadata("design:type", Number)
-], DocumentEntity.prototype, "id", void 0);
+], Document.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], DocumentEntity.prototype, "title", void 0);
+], Document.prototype, "title", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], DocumentEntity.prototype, "content", void 0);
+], Document.prototype, "content", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], DocumentEntity.prototype, "createdAt", void 0);
+], Document.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
-], DocumentEntity.prototype, "updatedAt", void 0);
-exports.DocumentEntity = DocumentEntity = __decorate([
+], Document.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, user => user.documents),
+    (0, typeorm_1.JoinColumn)({ name: 'id' }),
+    __metadata("design:type", user_entity_1.User)
+], Document.prototype, "creator", void 0);
+exports.Document = Document = __decorate([
     (0, typeorm_1.Entity)()
-], DocumentEntity);
+], Document);
 //# sourceMappingURL=documents.entity.js.map

@@ -24,6 +24,11 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateDocumentDto.prototype, "content", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateDocumentDto.prototype, "userId", void 0);
 class CreateDocumentPatchDto {
 }
 exports.CreateDocumentPatchDto = CreateDocumentPatchDto;

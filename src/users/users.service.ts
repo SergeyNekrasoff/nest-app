@@ -64,7 +64,7 @@ export class UsersService {
    * @param id is type of number, which represent the id of user.
    * @returns promise of user
    */
-  async findById(id: any): Promise<User | undefined> {
+  async findById(id: number): Promise<User | undefined> {
     const user = await this.usersRepository.findOne({ where: { id } })
     if (!user) {
       throw new Error('User not found')

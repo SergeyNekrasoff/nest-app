@@ -8,6 +8,10 @@ export class CreateDocumentDto {
   @IsNotEmpty()
   @IsString()
   content?: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  userId: number;
 }
 
 export class CreateDocumentPatchDto {

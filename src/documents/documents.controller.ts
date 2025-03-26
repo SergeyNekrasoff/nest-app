@@ -1,7 +1,7 @@
 import { DocumentsService } from './documents.service';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { CreateDocumentDto } from './dto/create-document.dto';
-import { DocumentEntity } from './entities/documents.entity';
+import { Document } from './entities/documents.entity';
 
 @Controller('documents')
 export class DocumentController {
@@ -18,7 +18,7 @@ export class DocumentController {
   }
   
   @Get('search')
-  search(@Query('title') title: string): Promise<DocumentEntity[]> {
+  search(@Query('title') title: string): Promise<Document[]> {
     return this.documentsService.findByTitle(title);
   }
 
